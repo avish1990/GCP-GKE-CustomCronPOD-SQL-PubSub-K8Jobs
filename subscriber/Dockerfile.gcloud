@@ -1,0 +1,4 @@
+FROM ubuntu:latest
+WORKDIR /Jelly
+RUN apt-get update && apt-get install -y wget python && wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-215.0.0-linux-x86_64.tar.gz && tar -xvzf google-cloud-sdk-215.0.0-linux-x86_64.tar.gz && ./google-cloud-sdk/install.sh --quiet 
+CMD  cp /var/secrets/google/credentials.json . && ./google-cloud-sdk/bin/gcloud auth activate-service-account --key-file credentials.json && ./google-cloud-sdk/bin/gcloud pubsub subscriptions pull <PUBSUB_SUBSCRIPTION_NAME> --auto-ack

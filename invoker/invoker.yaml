@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jelly-invoke
+  labels:
+    app: jelly-invoke
+spec:
+      selector:
+        matchLabels:
+          app: jelly-invoke
+      strategy:
+        type: Recreate
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: jelly-invoke
+        spec:
+          containers:
+          - name: invoker
+            image: <BUILD-IMAGE>
+            imagePullPolicy: Always
+            volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /var/secrets/google
+              readOnly: true 
+
+            env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: password
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/credentials.json
+
+       
+          - name: cloudsql-proxy
+            image: gcr.io/cloudsql-docker/gce-proxy:1.11
+            command: ["/cloud_sql_proxy",
+                      "-instances=<CLOUD_SQL_INSTANCE_NAME>=tcp:3306",
+                      "-credential_file=/secrets/cloudsql/credentials.json"]
+            volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true 
+
+
+          volumes:
+          - name: cloudsql-instance-credentials
+            secret:
+              secretName: cloudsql-instance-credentials
+

@@ -1,0 +1,35 @@
+#!/usr/bin/python
+from os import path
+
+import yaml
+
+from kubernetes import client, config
+
+config.load_kube_config()
+
+def create_deploy():
+
+    with open(path.join(path.dirname(__file__), "/YAML/invoker.yaml")) as f:
+        dep = yaml.load(f)
+        k8s_beta = client.AppsV1Api()
+        resp = k8s_beta.create_namespaced_deployment(
+            body=dep, namespace="default")
+        print("Deployment created. status='%s'" % str(resp.status))
+
+def delete_deploy():
+
+    body = client.V1DeleteOptions()
+    k8s_beta = client.AppsV1Api()
+    name = "jelly-invoke"
+    namespace = "default"
+    resp = k8s_beta.delete_namespaced_deployment(
+        name, namespace, body)
+    print("Deployment deleted. status='%s'" % str(resp.status))
+
+
+
+try:
+  delete_deploy()
+  create_deploy()
+except:
+  create_deploy()

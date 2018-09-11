@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jelly-cron
+  labels:
+    app: jelly-cron
+spec:
+      selector:
+        matchLabels:
+          app: jelly-cron
+      strategy:
+        type: Recreate
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: jelly-cron
+        spec:
+          containers:
+          - name: scheduler
+            image: <BUILD_IMAGE>
+            imagePullPolicy: Always
+            volumeMounts:
+            #- name: kube-cluster-config
+            #  mountPath: /root/.kube
+
+            - name: invoker-config
+              mountPath: /YAML
+            - name: batchjobs-config
+              mountPath: /JOB-YAML
+        
+            - name: cloudsql-instance-credentials
+              mountPath: /var/secrets/google
+              readOnly: true
+
+            env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/credentials.json
+
+          volumes:
+          #- name: kube-cluster-config
+          #  configMap:
+          #    name: kube-config
+          - name: invoker-config
+            configMap:
+              name: invoker-config
+          - name: batchjobs-config
+            configMap:
+              name: batchjobs-config
+          - name: cloudsql-instance-credentials
+            secret:
+              secretName: cloudsql-instance-credentials
+
+

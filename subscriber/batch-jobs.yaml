@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jelly-process
+spec:
+  #selector:
+  #  matchLabels:
+  #    app: temp
+  #completions: 100
+  parallelism: 5
+  template:
+    metadata:
+      name: jelly-process
+      labels:
+        app: jelly
+    spec:
+      containers:
+      - name: jellyqueuereceiver
+        image: <BUILD_IMAGE>
+        #command: ["/bin/sh", "-c"]
+        #args: ["sleep 10d"]
+        volumeMounts:
+        - name: cloudsql-instance-credentials
+          mountPath: /var/secrets/google
+          readOnly: true
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/credentials.json
+      restartPolicy: OnFailure
+      volumes:
+      - name: cloudsql-instance-credentials
+        secret:
+          secretName: cloudsql-instance-credentials
