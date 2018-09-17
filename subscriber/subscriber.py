@@ -21,11 +21,9 @@ def receive_messages_with_flow_control(project, subscription_name):
 
     subscriber.subscribe(
         subscription_path, callback=callback, flow_control=flow_control)
-    #subscriber.subscribe(
-    #    subscription_path, callback=callback)
 
 
     print('Listening for messages on {}'.format(subscription_path))
     time.sleep(300)
 
-receive_messages_with_flow_control('<GCP_PROJECT_NAME>', 'GCP_PUBSUB_SUBSCRIPTION_NAME')
+receive_messages_with_flow_control('<GCP_PROJECT_NAME>', 'cyb-sub')

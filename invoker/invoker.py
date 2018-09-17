@@ -12,7 +12,7 @@ PASSWORD = os.environ.get('DB_PASSWORD')
 def get_list():
   global entries
 
-  connection = pymysql.connect(host='127.0.0.1',user=USER,password=PASSWORD,db='<DB_NAME>')
+  connection = pymysql.connect(host='127.0.0.1',user=USER,password=PASSWORD,db='cybdb')
   cur = connection.cursor()
 
   cur.execute("SELECT name FROM employee")
@@ -37,4 +37,4 @@ def publish_messages(project, topic_name):
 
 
 get_list()
-publish_messages('<GCP_PROJECT_NAME>', '<PUBSUB_TOPIC_NAME>')
+publish_messages('<GCP_PROJECT_NAME>', 'cyb-topic')

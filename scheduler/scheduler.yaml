@@ -1,32 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jelly-cron
+  name: cyb-cron
   labels:
-    app: jelly-cron
+    app: cyb-cron
 spec:
       selector:
         matchLabels:
-          app: jelly-cron
+          app: cyb-cron
       strategy:
         type: Recreate
       replicas: 1
       template:
         metadata:
           labels:
-            app: jelly-cron
+            app: cyb-cron
         spec:
           containers:
           - name: scheduler
-            image: <BUILD_IMAGE>
+            image: avish1990/scheduler:1.0
             imagePullPolicy: Always
             volumeMounts:
-            #- name: kube-cluster-config
-            #  mountPath: /root/.kube
+            - name: kube-cluster-config
+              mountPath: /cluster-config
 
             - name: invoker-config
               mountPath: /YAML
-            - name: batchjobs-config
+            - name: subscriber-config
               mountPath: /JOB-YAML
         
             - name: cloudsql-instance-credentials
@@ -38,15 +38,15 @@ spec:
               value: /var/secrets/google/credentials.json
 
           volumes:
-          #- name: kube-cluster-config
-          #  configMap:
-          #    name: kube-config
+          - name: kube-cluster-config
+            configMap:
+              name: kube-config
           - name: invoker-config
             configMap:
               name: invoker-config
-          - name: batchjobs-config
+          - name: subscriber-config
             configMap:
-              name: batchjobs-config
+              name: subscriber-config
           - name: cloudsql-instance-credentials
             secret:
               secretName: cloudsql-instance-credentials

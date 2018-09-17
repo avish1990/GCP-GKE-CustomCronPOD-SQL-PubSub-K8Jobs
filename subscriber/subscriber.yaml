@@ -1,24 +1,18 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: jelly-process
+  name: cyb-process
 spec:
-  #selector:
-  #  matchLabels:
-  #    app: temp
-  #completions: 100
   parallelism: 5
   template:
     metadata:
-      name: jelly-process
+      name: cyb-process
       labels:
-        app: jelly
+        app: cyb
     spec:
       containers:
-      - name: jellyqueuereceiver
-        image: <BUILD_IMAGE>
-        #command: ["/bin/sh", "-c"]
-        #args: ["sleep 10d"]
+      - name: cybqueuereceiver
+        image: avish1990/subscriber:1.0
         volumeMounts:
         - name: cloudsql-instance-credentials
           mountPath: /var/secrets/google

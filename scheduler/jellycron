@@ -1,1 +1,0 @@
-*/5 * * * * /usr/bin/python /Jelly/trigger.py >> /var/log/cron.log 2>&1

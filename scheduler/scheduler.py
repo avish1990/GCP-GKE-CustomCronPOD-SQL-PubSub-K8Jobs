@@ -31,7 +31,7 @@ def delete_deploy():
 
     body = client.V1DeleteOptions()
     k8s_beta = client.AppsV1Api()
-    name = "jelly-invoke"
+    name = "cyb-invoke"
     namespace = "default"
     resp = k8s_beta.delete_namespaced_deployment(
         name, namespace, body)
@@ -42,8 +42,8 @@ def delete_job():
     body = client.V1DeleteOptions()
     k8s_beta = client.BatchV1Api()
     pod_api = client.CoreV1Api()
-    name = "jelly"
-    name_job = "jelly-process"
+    name = "cyb"
+    name_job = "cyb-process"
     namespace = "default"
 
     pod_list = pod_api.list_pod_for_all_namespaces(label_selector="app={}".format(name), pretty=True)
