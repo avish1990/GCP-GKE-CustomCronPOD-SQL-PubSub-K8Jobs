@@ -19,7 +19,7 @@ def create_deploy():
 
 def create_job():
 
-    with open(path.join(path.dirname(__file__), "/JOB-YAML/batch-jobs.yaml")) as f:
+    with open(path.join(path.dirname(__file__), "/JOB-YAML/subscriber.yaml")) as f:
         dep = yaml.load(f)
         k8s_beta = client.BatchV1Api()
         resp = k8s_beta.create_namespaced_job(
