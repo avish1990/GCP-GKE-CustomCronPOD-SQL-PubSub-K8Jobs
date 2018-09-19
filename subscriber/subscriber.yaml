@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: cyb-sub
 spec:
-  parallelism: 5
+  parallelism: 3
   template:
     metadata:
       name: cyb-sub
