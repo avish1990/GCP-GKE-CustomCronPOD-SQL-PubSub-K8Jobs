@@ -21,3 +21,7 @@ kubectl create configmap invoker-config --from-file=invoker.yaml
 # Batch Jobs YAML, which acts as subscriber
 
 kubectl create configmap subscriber-config --from-file=subscriber.yaml
+
+# Project ID 
+
+kubectl create secret generic gcpproject --from-literal=PROJECT=$PROJECT_ID

@@ -10,7 +10,7 @@ config.load_kube_config()
 
 def create_deploy():
 
-    with open(path.join(path.dirname(__file__), "/YAML/invoker.yaml")) as f:
+    with open(path.join(path.dirname(__file__), "/invoker-config/invoker.yaml")) as f:
         dep = yaml.load(f)
         k8s_beta = client.AppsV1Api()
         resp = k8s_beta.create_namespaced_deployment(
@@ -19,7 +19,7 @@ def create_deploy():
 
 def create_job():
 
-    with open(path.join(path.dirname(__file__), "/JOB-YAML/subscriber.yaml")) as f:
+    with open(path.join(path.dirname(__file__), "/subscriber-config/subscriber.yaml")) as f:
         dep = yaml.load(f)
         k8s_beta = client.BatchV1Api()
         resp = k8s_beta.create_namespaced_job(
@@ -43,7 +43,7 @@ def delete_job():
     k8s_beta = client.BatchV1Api()
     pod_api = client.CoreV1Api()
     name = "cyb"
-    name_job = "cyb-process"
+    name_job = "cyb-sub"
     namespace = "default"
 
     pod_list = pod_api.list_pod_for_all_namespaces(label_selector="app={}".format(name), pretty=True)

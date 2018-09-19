@@ -25,9 +25,9 @@ spec:
               mountPath: /cluster-config
 
             - name: invoker-config
-              mountPath: /YAML
+              mountPath: /invoker-config
             - name: subscriber-config
-              mountPath: /JOB-YAML
+              mountPath: /subscriber-config
         
             - name: cloudsql-instance-credentials
               mountPath: /var/secrets/google
