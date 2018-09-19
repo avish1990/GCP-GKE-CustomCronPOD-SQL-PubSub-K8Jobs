@@ -24,4 +24,4 @@ kubectl create configmap subscriber-config --from-file=subscriber.yaml
 
 # Project ID 
 
-kubectl create secret generic gcpproject --from-literal=PROJECT=$PROJECT_ID
+kubectl create secret generic gcp-project-id --from-literal=PROJECT=$PROJECT_ID

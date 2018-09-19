@@ -7,6 +7,8 @@ import time
 
 from google.cloud import pubsub_v1
 
+PROJECT_ID = os.environ.get('PROJECT')
+
 def receive_messages_with_flow_control(project, subscription_name):
 
     subscriber = pubsub_v1.SubscriberClient()
@@ -26,4 +28,4 @@ def receive_messages_with_flow_control(project, subscription_name):
     print('Listening for messages on {}'.format(subscription_path))
     time.sleep(300)
 
-receive_messages_with_flow_control('<GCP_PROJECT_NAME>', 'cyb-sub')
+receive_messages_with_flow_control(PROJECT_ID, 'cyb-sub')

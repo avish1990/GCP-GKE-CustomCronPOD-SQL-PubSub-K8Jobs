@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: cyb-sub
 spec:
-  parallelism: ${COUNT}
+  parallelism: 5
   template:
     metadata:
       name: cyb-sub
@@ -21,11 +21,11 @@ spec:
         env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/credentials.json
-        - name: PARALLEL_COUNT
+        - name: PROJECT
           valueFrom:
             secretKeyRef:
-              name: k8-count
-              key: COUNT
+              name: gcp-project-id
+              key: PROJECT
 
       restartPolicy: OnFailure
       volumes:

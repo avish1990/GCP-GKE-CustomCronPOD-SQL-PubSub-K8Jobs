@@ -8,6 +8,7 @@ from google.cloud import pubsub_v1
 
 USER = os.environ.get('DB_USER')
 PASSWORD = os.environ.get('DB_PASSWORD')
+PROJECT_ID = os.environ.get('PROJECT')
 
 def get_list():
   global entries
@@ -37,4 +38,4 @@ def publish_messages(project, topic_name):
 
 
 get_list()
-publish_messages('<GCP_PROJECT_NAME>', 'cyb-topic')
+publish_messages( PROJECT_ID, 'cyb-topic')
