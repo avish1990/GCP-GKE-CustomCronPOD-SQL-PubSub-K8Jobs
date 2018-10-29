@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cyb-sub
+spec:
+  selector:
+    matchLabels:
+      app: cyb
+  strategy:
+    type: Recreate
+  replicas: 1
+  template:
+    metadata:
+      name: cyb-sub
+      labels:
+        app: cyb
+    spec:
+      containers:
+      - name: subscriber
+        image: avish1990/subscriber:2.0
+        volumeMounts:
+        - name: cloudsql-instance-credentials
+          mountPath: /var/secrets/google
+          readOnly: true
+
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/credentials.json
+        - name: PROJECT
+          valueFrom:
+            secretKeyRef:
+              name: gcp-project-id
+              key: PROJECT
+
+      volumes:
+      - name: cloudsql-instance-credentials
+        secret:
+          secretName: cloudsql-instance-credentials
