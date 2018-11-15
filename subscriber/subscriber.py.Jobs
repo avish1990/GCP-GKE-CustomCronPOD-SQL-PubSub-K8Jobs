@@ -26,9 +26,7 @@ def receive_messages_with_flow_control(project, subscription_name):
 
     print('Listening for messages on {}'.format(subscription_path))
     
-    while True:
-        time.sleep(60)
     
-    #time.sleep(300)
+    time.sleep(300)
 
 receive_messages_with_flow_control(PROJECT_ID, 'cyb-sub')

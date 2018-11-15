@@ -1,14 +1,9 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: cyb-sub
 spec:
-  selector:
-    matchLabels:
-      app: cyb
-  strategy:
-    type: Recreate
-  replicas: 1
+  parallelism: 15
   template:
     metadata:
       name: cyb-sub
@@ -17,7 +12,7 @@ spec:
     spec:
       containers:
       - name: subscriber
-        image: avish1990/subscriber-deploy-2min:1.0
+        image: avish1990/subscriber:2.0
         volumeMounts:
         - name: cloudsql-instance-credentials
           mountPath: /var/secrets/google
@@ -32,6 +27,7 @@ spec:
               name: gcp-project-id
               key: PROJECT
 
+      restartPolicy: OnFailure
       volumes:
       - name: cloudsql-instance-credentials
         secret:
