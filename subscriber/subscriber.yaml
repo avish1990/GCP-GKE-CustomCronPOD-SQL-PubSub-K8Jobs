@@ -13,6 +13,7 @@ spec:
       containers:
       - name: subscriber
         image: avish1990/subscriber:2.0
+        command: ["python", "-u", "/subscriber/subscriber.py"]
         volumeMounts:
         - name: cloudsql-instance-credentials
           mountPath: /var/secrets/google
